@@ -1,0 +1,106 @@
+/* The Modal (background) */
+.modal {
+    display: block;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1000;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    padding-bottom: 130px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.ul-class {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.li-class {
+    height: auto;
+    flex-grow: 1;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.li-class:last-child {
+    flex-grow: 10;
+}
+
+.li-class::marker {
+    display: none;
+}
+
+.img-class {
+    max-height: 150px;
+    max-width: 150px;
+    object-fit: cover;
+    vertical-align: bottom;
+    border: 1px solid #888;
+    border-style: dashed;
+}
+
+@media (max-aspect-ratio: 1/1) {
+    .li-class {
+        height: 30vh;
+    }
+}
+
+@media (max-height: 480px) {
+    .li-class {
+        height: 80vh;
+    }
+}
+
+@media (max-aspect-ratio: 1/1) and (max-width: 480px) {
+    .ul-class {
+        flex-direction: row;
+    }
+
+    .li-class {
+        height: auto;
+        width: 100%;
+    }
+
+    .img-class {
+        width: 100%;
+        max-height: 75vh;
+        min-width: 0;
+    }
+}

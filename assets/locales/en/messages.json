@@ -1,0 +1,11 @@
+{
+    "appName": {
+        "message": "canva-ripper"
+    },
+    "appShortName": {
+        "message": "canva-ripper"
+    },
+    "appDescription": {
+        "message": "rip assets of canva"
+    }
+}
