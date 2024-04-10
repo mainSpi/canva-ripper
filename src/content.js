@@ -4,8 +4,12 @@ const fac = new FastAverageColor();
 import { prominent } from 'color.js'
 
 document.addEventListener("click", (e) => {
-    console.log()
     try {
+
+        if (!e.ctrlKey){
+            return;
+        }
+
         let img = e.target.parentElement.children[0];
         if (img.tagName.toLowerCase() !== "img") {
             // console.log("DIFERENTE: " + img.tagName)
@@ -21,7 +25,10 @@ document.addEventListener("click", (e) => {
 
         let averageColor = fac.getColor(img).hex;
 
-        let displays = [img];
+        let displays = createModal();
+
+        displays.push(img);
+
 
         let steps10 = [];
         let steps50 = [];
@@ -42,7 +49,7 @@ document.addEventListener("click", (e) => {
         });
 
         prominent(img, { amount: 8, format: 'hex' }).then(colors => {
-            if (typeof colors == "string"){
+            if (typeof colors == "string") {
                 colors = [colors];
             }
             colors.forEach(c => {
@@ -93,16 +100,16 @@ document.addEventListener("click", (e) => {
         let t2 = 0;
         let t3 = 0;
         function checkComplete() {
-            if (t1 == t2 && t2 == t3 && t3 == displays.length){ //donee
-                createModal(displays);
+            if (t1 == t2 && t2 == t3 && t3 == displays.length) { // done
+                // fixing the image style so it looks untouched
                 imgClasses.forEach(e => {
                     img.classList.add(e);
                 });
                 img.style.position = '';
             } else {
-                if (t1 == t2 && t2 == displays.length){
+                if (t1 == t2 && t2 == displays.length) {
                     t3 = displays.length;
-                } else if (t1 == displays.length){
+                } else if (t1 == displays.length) {
                     t2 = displays.length;
                 } else {
                     t1 = displays.length;
@@ -120,7 +127,7 @@ document.addEventListener("click", (e) => {
     }
 })
 
-function createModal(list) {
+function createModal() {
     let div = document.createElement("div");
     div.id = "myModal";
     div.className = "modal";
@@ -131,37 +138,6 @@ function createModal(list) {
 
     let ul = document.createElement("ul");
     ul.className = "ul-class";
-
-    for (let i = 0; i < list.length; i++) {
-        const e = list[i];
-        let li = document.createElement("il"); //its a fucking annoying ::marker fix
-        li.className = "li-class";
-
-        if (i == 0) {
-            let img = document.createElement("img");
-            img.src = e.src;
-            li.appendChild(img);
-        } else {
-            li.innerHTML += e;
-        }
-
-        ul.appendChild(li);
-        li.children[0].setAttribute('class', 'img-class');
-
-        if (i != 0){ // only on svg's
-            let svg = li.children[0];
-            if (svg.children.length == 1 && svg.children[0].getAttribute('d').length == 0){
-                // console.log('REMOVER');
-                // remove image if its a lonely, empty path element under svg
-                ul.removeChild(li);
-            }
-        }
-
-    }
-
-    let li = document.createElement("il");
-    li.className = "li-class";
-    ul.appendChild(li);
 
 
     innerDiv.appendChild(ul);
@@ -177,6 +153,70 @@ function createModal(list) {
     innerDiv.children[0].onclick = function () {
         document.body.removeChild(div);
     }
+
+    return new Proxy([], {
+        set: function (target, property, value, receiver) {
+            target[property] = value;
+            if (property !== "length") {
+                let e = value;
+                let li = document.createElement("il"); //its a fucking annoying ::marker fix
+                li.className = "li-class";
+
+                if (property === "0") {
+                    let img = document.createElement("img");
+                    img.src = e.src;
+                    li.appendChild(img);
+                } else {
+                    li.innerHTML += e;
+                }
+
+                ul.appendChild(li);
+                li.children[0].setAttribute('class', 'img-class');
+
+                if (property !== "0") { // only on svg's
+                    let svg = li.children[0];
+                    if (svg.children.length == 1 &&
+                        (svg.children[0].getAttribute('d').length == 0 ||
+                            svg.children[0].getBoundingClientRect().height < 10 ||
+                            svg.children[0].getBoundingClientRect().width < 10)) {
+                        // console.log('REMOVER');
+                        // remove image if its a lonely, empty path element under svg
+                        // or if its a too small lonely path
+                        ul.removeChild(li);
+                    }
+                    svg.addEventListener('click', () => {
+                        //create a file and put the content, name and type
+                        var file = new File(["\ufeff" + e], makeid(10)+'.svg', { type: "text/plain:charset=UTF-8" });
+    
+                        //create a ObjectURL in order to download the created file
+                        let url = window.URL.createObjectURL(file);
+    
+                        //create a hidden link and set the href and click it
+                        var a = document.createElement("a");
+                        a.style = "display: none";
+                        a.href = url;
+                        a.download = file.name;
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        document.body.removeChild(div);
+                    });
+                } else {
+                    let img = li.children[0];
+                    img.addEventListener('click', () => {
+                        var a = document.createElement("a");
+                        a.style = "display: none";
+                        a.href = img.src;
+                        a.download = makeid(10);
+                        a.target = '_blank';
+                        a.click();
+                        document.body.removeChild(div);
+                    });
+                }
+            }
+            return true;
+        }
+    });
+
 }
 
 function imgToBuffer(e) {
@@ -185,3 +225,14 @@ function imgToBuffer(e) {
     return ctx.getImageData(0, 0, w, h)
 }
 
+function makeid(length) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
+}

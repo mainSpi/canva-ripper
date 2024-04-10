@@ -55,7 +55,6 @@
 .li-class {
     height: auto;
     flex-grow: 1;
-    cursor: pointer;
     margin-bottom: 10px;
 }
 
@@ -74,6 +73,7 @@
     vertical-align: bottom;
     border: 1px solid #888;
     border-style: dashed;
+    cursor: pointer;
 }
 
 @media (max-aspect-ratio: 1/1) {
