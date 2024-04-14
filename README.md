@@ -2,6 +2,10 @@
 
 rip assets of canva
 
+## DISCLAIMER
+
+FOR LEARNING AND TESTING PURPOSES ONLY. ITS ILEGAL TO PIRATE IMAGES. DO NOT USE THIS FOR ANY PRESENTATIONS. YOU WILL BE PUNISHED BY LOCAL LAW. 
+
 ## Development 
 
 This extension was created with [Extension CLI](https://oss.mobilefirst.me/extension-cli/)!
