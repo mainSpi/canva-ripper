@@ -4,4 +4,6 @@ proxy? to list thing on modal without waiting locked - DONE
 
 when using the feature two consecutive times on the same image, something goes wrong - DONE (puff problem went somewhere far and never came back)
 
-color svg's are too dim. To make them bolder, analyze and correct all path opacity from svg's.
+color svg's are too dim. To make them bolder, analyze and correct all path opacity from svg's. - DONE (looks dope af)
+
+all color highlight svgs look the same. Can just copy once no need to generate it again every time

@@ -23,7 +23,7 @@ document.addEventListener("click", (e) => {
         img.className = '';
         img.style.position = 'absolute';
 
-        
+
 
         let bufferImg = imgToBuffer(img);
         let averageColor = fac.getColor(img).hex;
@@ -31,8 +31,7 @@ document.addEventListener("click", (e) => {
 
         displays.push(img);
 
-
-        let steps10 = [];
+        let steps10 = []; // lol its actually 20 lets ignore it
         let steps50 = [];
         for (let i = 0; i < 255; i++) {
             if (i % 20 == 0) {
@@ -98,6 +97,11 @@ document.addEventListener("click", (e) => {
             displays.push(svg);
         });
 
+
+        // this is a dirty fix to not knowning how many images will be created, since B/W ones have less colors, thus, less images.
+        // since the concurrent modal implementation, its only used to reset the images's size after all images are created
+        // without it the original image would be crippled forever OR the vectors created would be 80x80 pixels
+        // TODO: look for a fix, maybe? i feel like this is fine as is
         let t1 = -1;
         let t2 = 0;
         let t3 = 0;
@@ -188,7 +192,7 @@ function createModal() {
                     }
                     svg.addEventListener('click', () => {
                         //create a file and put the content, name and type
-                        var file = new File(["\ufeff" + e], makeid(10) + '.svg', { type: "text/plain:charset=UTF-8" });
+                        var file = new File(["\ufeff" + li.innerHTML], makeid(10) + '.svg', { type: "text/plain:charset=UTF-8" });
 
                         //create a ObjectURL in order to download the created file
                         let url = window.URL.createObjectURL(file);
@@ -240,11 +244,23 @@ function makeid(length) {
     return result;
 }
 
-function fixOpacity(svg){
+function fixOpacity(svg) {
+    if (svg.children.length == 1) {
+        return;
+    }
     let list = [];
     for (let i = 0; i < svg.children.length; i++) {
         const path = svg.children[i];
-        list.push(path.getAttribute("fill-opacity"));
+        let item = path.getAttribute("fill-opacity");
+        if (item == null) {
+            return;
+        }
+        list.push(Number(path.getAttribute("fill-opacity")));
     }
-    console.log(list);
+    let max = Math.max(...list);
+    let correctionFactor = (max * 2 > 1 ? 0.8 : max * 2) / max;
+    for (let i = 0; i < svg.children.length; i++) {
+        const path = svg.children[i];
+        path.setAttribute("fill-opacity", (list[i] * correctionFactor).toFixed(4));
+    }
 }
