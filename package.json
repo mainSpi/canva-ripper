@@ -2,11 +2,10 @@
     "name": "canva-ripper",
     "description": "rip assets of canva",
     "version": "0.0.1",
-    "homepage": "http://chrome.google.com/webstore",
-    "author": "ENTER YOUR NAME HERE",
+    "author": "https://github.com/mainSpi",
     "repository": {
         "type": "git",
-        "url": "ENTER GIT REPO URL"
+        "url": "https://github.com/mainSpi/canva-ripper"
     },
     "scripts": {
         "start": "xt-build -e dev -w",
