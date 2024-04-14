@@ -6,7 +6,7 @@ import { prominent } from 'color.js'
 document.addEventListener("click", (e) => {
     try {
 
-        if (!e.ctrlKey){
+        if (!e.ctrlKey) {
             return;
         }
 
@@ -23,8 +23,10 @@ document.addEventListener("click", (e) => {
         img.className = '';
         img.style.position = 'absolute';
 
-        let averageColor = fac.getColor(img).hex;
+        
 
+        let bufferImg = imgToBuffer(img);
+        let averageColor = fac.getColor(img).hex;
         let displays = createModal();
 
         displays.push(img);
@@ -42,7 +44,7 @@ document.addEventListener("click", (e) => {
         }
 
         steps50.forEach(v => {
-            potrace.trace(imgToBuffer(img), { threshold: v }, function (err, svg) {
+            potrace.trace(bufferImg, { threshold: v }, function (err, svg) {
                 if (err) throw err;
                 displays.push(svg);
             });
@@ -53,12 +55,12 @@ document.addEventListener("click", (e) => {
                 colors = [colors];
             }
             colors.forEach(c => {
-                potrace.trace(imgToBuffer(img), { color: c }, function (err, svg) {
+                potrace.trace(bufferImg, { color: c }, function (err, svg) {
                     if (err) throw err;
                     displays.push(svg);
                 });
                 steps10.forEach(v => {
-                    potrace.trace(imgToBuffer(img), { threshold: v, color: c }, function (err, svg) {
+                    potrace.trace(bufferImg, { threshold: v, color: c }, function (err, svg) {
                         if (err) throw err;
                         displays.push(svg);
                     });
@@ -66,32 +68,32 @@ document.addEventListener("click", (e) => {
             });
         });
 
-        potrace.posterize(imgToBuffer(img), { steps: [40, 85, 135, 180] }, function (err, svg) {
+        potrace.posterize(bufferImg, { steps: [40, 85, 135, 180] }, function (err, svg) {
             if (err) throw err;
             displays.push(svg);
         });
 
-        potrace.posterize(imgToBuffer(img), { steps: steps10 }, function (err, svg) {
+        potrace.posterize(bufferImg, { steps: steps10 }, function (err, svg) {
             if (err) throw err;
             displays.push(svg);
         });
 
-        potrace.posterize(imgToBuffer(img), { steps: steps50 }, function (err, svg) {
+        potrace.posterize(bufferImg, { steps: steps50 }, function (err, svg) {
             if (err) throw err;
             displays.push(svg);
         });
 
-        potrace.posterize(imgToBuffer(img), { steps: steps10, color: averageColor }, function (err, svg) {
+        potrace.posterize(bufferImg, { steps: steps10, color: averageColor }, function (err, svg) {
             if (err) throw err;
             displays.push(svg);
         });
 
-        potrace.posterize(imgToBuffer(img), { steps: steps50, color: averageColor }, function (err, svg) {
+        potrace.posterize(bufferImg, { steps: steps50, color: averageColor }, function (err, svg) {
             if (err) throw err;
             displays.push(svg);
         });
 
-        potrace.posterize(imgToBuffer(img), { color: averageColor }, function (err, svg) {
+        potrace.posterize(bufferImg, { color: averageColor }, function (err, svg) {
             if (err) throw err;
             displays.push(svg);
         });
@@ -186,11 +188,11 @@ function createModal() {
                     }
                     svg.addEventListener('click', () => {
                         //create a file and put the content, name and type
-                        var file = new File(["\ufeff" + e], makeid(10)+'.svg', { type: "text/plain:charset=UTF-8" });
-    
+                        var file = new File(["\ufeff" + e], makeid(10) + '.svg', { type: "text/plain:charset=UTF-8" });
+
                         //create a ObjectURL in order to download the created file
                         let url = window.URL.createObjectURL(file);
-    
+
                         //create a hidden link and set the href and click it
                         var a = document.createElement("a");
                         a.style = "display: none";
@@ -200,6 +202,7 @@ function createModal() {
                         window.URL.revokeObjectURL(url);
                         document.body.removeChild(div);
                     });
+                    fixOpacity(svg);
                 } else {
                     let img = li.children[0];
                     img.addEventListener('click', () => {
@@ -231,8 +234,17 @@ function makeid(length) {
     const charactersLength = characters.length;
     let counter = 0;
     while (counter < length) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      counter += 1;
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        counter += 1;
     }
     return result;
+}
+
+function fixOpacity(svg){
+    let list = [];
+    for (let i = 0; i < svg.children.length; i++) {
+        const path = svg.children[i];
+        list.push(path.getAttribute("fill-opacity"));
+    }
+    console.log(list);
 }
