@@ -2,6 +2,7 @@ let potrace = require('potrace');
 import { FastAverageColor } from 'fast-average-color';
 const fac = new FastAverageColor();
 import { prominent } from 'color.js'
+import jscolor from './jscolor';
 
 document.addEventListener("click", (e) => {
     try {
@@ -12,7 +13,6 @@ document.addEventListener("click", (e) => {
 
         let img = e.target.parentElement.children[0];
         if (img.tagName.toLowerCase() !== "img") {
-            // console.log("DIFERENTE: " + img.tagName)
             return;
         }
 
@@ -34,10 +34,10 @@ document.addEventListener("click", (e) => {
         let steps10 = []; // lol its actually 20 lets ignore it
         let steps50 = [];
         for (let i = 0; i < 255; i++) {
-            if (i % 20 == 0) {
+            if (i % 20 === 0) {
                 steps10.push(i);
             }
-            if (i % 50 == 0) {
+            if (i % 50 === 0) {
                 steps50.push(i);
             }
         }
@@ -122,7 +122,6 @@ document.addEventListener("click", (e) => {
                 }
                 // console.log(displays.length);
                 setTimeout(checkComplete, 50);
-                return;
             }
         }
         checkComplete();
@@ -145,13 +144,19 @@ function createModal() {
     let ul = document.createElement("ul");
     ul.className = "ul-class";
 
-
     innerDiv.appendChild(ul);
     div.appendChild(innerDiv);
+
+    /*
+    let headerDiv = document.createElement('div');
+    headerDiv.className = 'modal-header';
+    div.appendChild(headerDiv);
+    */
+
     document.body.appendChild(div);
 
     window.onclick = function (event) {
-        if (event.target == div) {
+        if (event.target === div) {
             document.body.removeChild(div);
         }
     }
@@ -181,8 +186,8 @@ function createModal() {
 
                 if (property !== "0") { // only on svg's
                     let svg = li.children[0];
-                    if (svg.children.length == 1 &&
-                        (svg.children[0].getAttribute('d').length == 0 ||
+                    if (svg.children.length === 1 &&
+                        (svg.children[0].getAttribute('d').length === 0 ||
                             svg.children[0].getBoundingClientRect().height < 10 ||
                             svg.children[0].getBoundingClientRect().width < 10)) {
                         // console.log('REMOVER');
@@ -245,7 +250,7 @@ function makeid(length) {
 }
 
 function fixOpacity(svg) {
-    if (svg.children.length == 1) {
+    if (svg.children.length === 1) {
         return;
     }
     let list = [];
