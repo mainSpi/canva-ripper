@@ -1,50 +1,51 @@
 {
-    "name": "__MSG_appName__",
-    "short_name": "__MSG_appShortName__",
-    "description": "__MSG_appDescription__",
-    "version": "0.0.1",
-    "version_name": "0.0.1",
-    "manifest_version": 3,
-    "default_locale": "en",
-    "minimum_chrome_version": "88",
-    "permissions": [
-        "tabs",
-        "activeTab"
-    ],
-    "icons": {
-        "128": "assets/img/icon-128.png"
-    },
-    "action": {
-        "default_icon": {
-            "16": "assets/img/icon-16.png",
-            "32": "assets/img/icon-32.png",
-            "64": "assets/img/icon-64.png",
-            "128": "assets/img/icon-128.png",
-            "256": "assets/img/icon-256.png",
-            "512": "assets/img/icon-512.png"
-        }
-    },
-    "content_scripts": [
-        {
-          "matches": [
-            "https://www.canva.com/design/*"
-          ],
-          "js": [
-            "content.js"
-          ],
-          "css": [
-            "style.css"
-          ]
-        }
+  "name": "__MSG_appName__",
+  "short_name": "__MSG_appShortName__",
+  "description": "__MSG_appDescription__",
+  "version": "0.0.1",
+  "version_name": "0.0.1",
+  "manifest_version": 3,
+  "default_locale": "en",
+  "minimum_chrome_version": "88",
+  "permissions": [
+    "tabs",
+    "activeTab"
+  ],
+  "icons": {
+    "128": "assets/img/icon-128.png"
+  },
+  "action": {
+    "default_popup": "popupinit.html",
+    "default_icon": {
+      "16": "assets/img/icon-16.png",
+      "32": "assets/img/icon-32.png",
+      "64": "assets/img/icon-64.png",
+      "128": "assets/img/icon-128.png",
+      "256": "assets/img/icon-256.png",
+      "512": "assets/img/icon-512.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.canva.com/design/*"
       ],
-      "web_accessible_resources": [
-        {
-          "resources": [
-            "style.css"
-          ],
-          "matches": [
-            "https://www.canva.com/*"
-          ]
-        }
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "style.css"
       ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "style.css"
+      ],
+      "matches": [
+        "https://www.canva.com/*"
+      ]
+    }
+  ]
 }

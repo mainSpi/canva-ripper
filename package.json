@@ -41,17 +41,30 @@
         "js_bundles": [
             {
                 "name": "content",
-                "src": "./src/**/*.js"
+                "src": "./src/*.js"
+            },
+            {
+                "name": "popup",
+                "src": "./src/popup/*.js"
+            },
+            {
+                "name": "popupinit",
+                "src": "./src/popup/init/*.js"
             }
         ],
         "scss_bundles": [
             {
                 "name": "style",
-                "src": "./src/**/*.css"
+                "src": "./src/*.css"
+            },
+            {
+                "name": "popup",
+                "src": "./src/popup/*.css"
             }
         ]
     },
     "dependencies": {
+        "bootstrap": "^5.3.3",
         "color.js": "^1.2.0",
         "fast-average-color": "^9.4.0",
         "potrace": "^2.1.8"
