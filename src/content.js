@@ -2,7 +2,6 @@ let potrace = require('potrace');
 import { FastAverageColor } from 'fast-average-color';
 const fac = new FastAverageColor();
 import { prominent } from 'color.js'
-// import jscolor from './jscolor';
 
 document.addEventListener("click", (e) => {
     try {

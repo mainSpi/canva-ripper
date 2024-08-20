@@ -1,7 +1,7 @@
 {
     "name": "canva-ripper",
     "description": "rip assets of canva",
-    "version": "0.0.1",
+    "version": "0.0.3",
     "author": "https://github.com/mainSpi",
     "repository": {
         "type": "git",

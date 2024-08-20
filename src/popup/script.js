@@ -1,7 +1,7 @@
 const bootstrap = require('bootstrap');
 
-let btn = document.getElementById('butao');
-btn.click();
+const loadingModal = new bootstrap.Modal(document.getElementById("staticBackdrop")); // dont ask questions https://www.sitepoint.com/community/t/how-toggle-bootstrap-5-modal-without-button-click/363536/2
+loadingModal.show();
 
 let btnClose = document.getElementById('btnClose');
 btnClose.addEventListener('click', () => {
