@@ -10,7 +10,7 @@ document.addEventListener("click", (e) => {
             return;
         }
 
-        let img = e.target.parentElement.children[0];
+        let img = e.target.parentElement.children[1];
         if (img.tagName.toLowerCase() !== "img") {
             return;
         }
