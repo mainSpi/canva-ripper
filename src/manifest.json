@@ -47,5 +47,10 @@
         "https://www.canva.com/*"
       ]
     }
-  ]
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "canva-ripper@mainspi.github.io"
+    }
+  }
 }
